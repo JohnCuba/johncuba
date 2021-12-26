@@ -1,9 +1,16 @@
 import type { NextPage } from 'next'
+import { useTheme } from 'next-themes'
+
+import Sidebar from '@components/sidebar'
 
 const Home: NextPage = () => {
+  const { theme, setTheme } = useTheme()
   return (
-    <div>
-    </div>
+    <main>
+      <Sidebar />
+      <button onClick={() => setTheme('light')}>Light Mode</button>
+      <button onClick={() => setTheme('dark')}>Dark Mode</button>
+    </main>
   )
 }
 
