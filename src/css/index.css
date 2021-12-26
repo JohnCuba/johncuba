@@ -1,7 +1,0 @@
-@import url(./common.css);
-@import url(./text.css);
-
-body {
-  margin: 0;
-  background-color: var(--body-background-color);
-}
