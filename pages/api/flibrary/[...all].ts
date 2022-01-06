@@ -8,7 +8,7 @@ const KEY = process.env.FLIBRARY_API_KEY || 'key';
 const VALUE = process.env.FLIBRARY_API_VALUE || 'value';
 
 const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.body[KEY] === VALUE) {
+  if (req.headers[KEY] === VALUE) {
     httpProxyMiddleware(req, res, {
       target: HOST,
       pathRewrite: [{
