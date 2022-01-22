@@ -1,2 +1,1 @@
-# Evgeny Kubetsky
-Front-end developer
+# Front-end developer
