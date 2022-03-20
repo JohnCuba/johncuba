@@ -9,8 +9,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     <ThemeProvider>
       <Head>
         <title>John Cuba</title>
-        <meta name="description" content="John Cuba - front-end developer with some dev-ops and back-end skills" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
     </ThemeProvider>

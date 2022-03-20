@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "LED-Dot-Matrix";
+  src: url("/fonts/LED-Dot-Matrix/LED-Dot-Matrix.ttf.woff") format('woff'),
+       url('/fonts/LED-Dot-Matrix/LED-Dot-Matrix.ttf.eot'),
+       url('/fonts/LED-Dot-Matrix/LED-Dot-Matrix.ttf.eot?#iefix') format('embedded-opentype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}

@@ -1,4 +1,5 @@
 [data-theme='dark'] {
-  --body-background-color: #393D3F;
-  --main-text-color: #F3EFF5;
+  --body-background-color: #10102c;
+  --main-text-color: darkorange;
+  --main-text-shadow: orange 0 0 3px;
 }
