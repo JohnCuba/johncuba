@@ -1,24 +1,21 @@
 {
   "name": "johncuba",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "12.0.4",
-    "next-http-proxy-middleware": "^1.1.2",
-    "next-themes": "0.0.15",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@types/node": "16.11.7",
-    "@types/react": "17.0.35",
-    "eslint": "7",
-    "eslint-config-next": "12.0.4",
-    "typescript": "4.4.4"
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@tsconfig/svelte": "^5.0.2",
+    "svelte": "^4.2.8",
+    "svelte-check": "^3.6.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
   }
 }
