@@ -1,13 +1,9 @@
 <script lang="ts">
+  import { Router, Route } from "svelte-routing";
+  import { Header } from "./lib/shared/view/header";
 </script>
 
-<main>
-  <h1 class="label">john cuba</h1>
-</main>
-
-<style>
-  .label {
-    font-size: var(--step-6);
-    padding-left: var(--space-m);
-  }
-</style>
+<Header />
+<Router>
+  <Route path="/" component={() => import("./lib/pages/home")} />
+</Router>
