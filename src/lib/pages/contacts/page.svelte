@@ -16,11 +16,15 @@
 </script>
 
 <main class="root">
-  {#each soc_links as { href, label }}
-    <a {href} class="link" target="_blank" rel="noopener noreferrer">
-      {"> " + label}
-    </a>
-  {/each}
+  <ul>
+    {#each soc_links as { href, label }}
+      <li>
+        <a {href} class="link" target="_blank" rel="noopener noreferrer">
+          {"> " + label}
+        </a>
+      </li>
+    {/each}
+  </ul>
   <a href="mailto:ekubetsky@gmail.com" class="link">ekubetsky@gmail.com</a>
 </main>
 
