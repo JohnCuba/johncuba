@@ -1,4 +1,4 @@
-import './lib/shared/style/global.css'
+import './lib/style/global.css'
 import App from './App.svelte'
 
 /** Mount point of the app */
