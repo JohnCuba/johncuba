@@ -1,6 +1,8 @@
+export const base = '/johncuba';
+
 export const routes = {
-  home: '/',
-  contacts: '/contacts',
-  projects: '/projects',
-  experience: '/experience',
+  home: base,
+  contacts: base + '/contacts',
+  projects: base + '/projects',
+  experience: base + '/experience',
 } as const;
