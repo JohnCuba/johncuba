@@ -6,6 +6,6 @@ export default defineConfig({
   build: {
     sourcemap: false,
   },
-  base: '/johncuba',
+  base: '',
   plugins: [svelte()],
 })

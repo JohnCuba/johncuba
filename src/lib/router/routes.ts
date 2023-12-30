@@ -1,4 +1,4 @@
-export const base = '/johncuba';
+export const base = '';
 
 export const routes = {
   home: base,
