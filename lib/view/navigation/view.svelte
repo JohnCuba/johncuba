@@ -1,13 +1,8 @@
-<script lang="ts">
-  import { links } from "svelte-routing";
-  import { routes } from "../../router";
-</script>
-
 <nav>
-  <ul class="list" use:links>
+  <ul class="list">
     <!-- <li><a href={routes.projects} class="link">/projects</a></li> -->
     <!-- <li><a href={routes.experience} class="link">/experience</a></li> -->
-    <li><a href={routes.contacts} class="link">/contacts</a></li>
+    <li><a href="/contacts" class="link">/contacts</a></li>
   </ul>
 </nav>
 
