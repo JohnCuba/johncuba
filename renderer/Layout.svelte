@@ -1,8 +1,21 @@
 <script lang="ts">
-  import { Header } from "./lib/view/header";
-  import { Navigation } from "./lib/view/navigation";
-  import { AppRouter } from "./lib/router";
+  import {
+    type ComponentType,
+    type ComponentProps,
+    type SvelteComponent,
+  } from "svelte";
+  import { Header } from "../lib/view/header";
+  import { Navigation } from "../lib/view/navigation";
+  import "../lib/style/global.css";
+
+  export let Page: ComponentType;
+  export let pageProps: ComponentProps<SvelteComponent>;
 </script>
+
+<svelte:head>
+  <title>John Cuba</title>
+  <meta name="description" content="John Cuba - web dev" />
+</svelte:head>
 
 <div class="root">
   <div class="control">
@@ -10,7 +23,7 @@
     <Navigation />
   </div>
   <div class="content">
-    <AppRouter />
+    <svelte:component this={Page} {...pageProps} />
   </div>
 </div>
 
