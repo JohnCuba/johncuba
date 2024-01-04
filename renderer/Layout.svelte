@@ -3,13 +3,19 @@
     type ComponentType,
     type ComponentProps,
     type SvelteComponent,
+    onMount,
   } from "svelte";
   import { Header } from "../lib/view/header";
   import { Navigation } from "../lib/view/navigation";
   import "../lib/style/global.css";
+  import { initCountly } from "../lib/analytic";
 
   export let Page: ComponentType;
   export let pageProps: ComponentProps<SvelteComponent>;
+
+  onMount(() => {
+    initCountly();
+  });
 </script>
 
 <svelte:head>
