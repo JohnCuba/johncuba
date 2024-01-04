@@ -3,8 +3,6 @@ export default onRenderHtml
 
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
 
-const base = import.meta.env.BASE_URL
-
 import Layout from './Layout.svelte'
 
 async function onRenderHtml(pageContext) {
