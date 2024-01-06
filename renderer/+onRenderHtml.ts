@@ -1,11 +1,11 @@
 // https://vike.dev/onRenderHtml
-export default onRenderHtml
-
 import { escapeInject, dangerouslySkipEscape } from 'vike/server'
+import type { OnRenderHtmlAsync } from 'vike/types'
 
-import Layout from './Layout.svelte'
+import { Layout } from '../lib/view/layout'
 
-async function onRenderHtml(pageContext) {
+const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
+  // @ts-expect-error -- not typed in svelte https://svelte.dev/docs/server-side-component-api
   const app = Layout.render(pageContext)
   const { html, head, css } = app
 
@@ -13,9 +13,6 @@ async function onRenderHtml(pageContext) {
     <!DOCTYPE html>
     <html lang="en">
       <head>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         ${dangerouslySkipEscape(head)}
         <style>${css.code}</style>
       </head>
@@ -26,3 +23,5 @@ async function onRenderHtml(pageContext) {
       </body>
     </html>`
 }
+
+export default onRenderHtml

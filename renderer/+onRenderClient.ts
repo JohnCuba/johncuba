@@ -1,9 +1,8 @@
 // https://vike.dev/onRenderClient
-export default onRenderClient
+import type { OnRenderClientSync } from 'vike/types'
+import { Layout } from '../lib/view/layout'
 
-import Layout from './Layout.svelte'
-
-function onRenderClient(pageContext) {
+const onRenderClient: OnRenderClientSync = (pageContext) => {
   /** Mount point of the app */
   let rootElemet = document.getElementById('app');
 
@@ -15,14 +14,15 @@ function onRenderClient(pageContext) {
     rootElemet = container;
   }
 
-  const { Page, pageProps } = pageContext
-
   new Layout({
     target: rootElemet,
     hydrate: true,
     props: {
-      pageProps: pageProps,
-      Page
+      Page: pageContext.Page as typeof Layout,
+      // @ts-expect-error -- comes from +config.h.ts
+      pageProps: pageContext.pageProps,
     }
   })
 }
+
+export default onRenderClient
