@@ -1,14 +1,14 @@
 export const initCountly = async () => {
+  if (process.env.NODE_ENV === 'development') return;
+
   const countly = (await import('countly-sdk-web')).default;
 
-  // @ts-expect-error
   if (window.Countly) return;
 
-  // @ts-expect-error
   window.Countly = countly;
 
   countly.init({
-    debug: true,
+    debug: false,
     app_key: import.meta.env.VITE_COUNTLY_APP_KEY,
     url: import.meta.env.VITE_COUNTLY_URL,
     use_explicit_rc_api: true,

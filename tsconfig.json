@@ -17,10 +17,13 @@
     "isolatedModules": true
   },
   "include": [
-    "lib/**/*.ts",
-    "lib/**/*.js",
-    "lib/**/*.svelte",
-    "vite_env.d.ts",
+    "./**/*.ts",
+    "./**/*.d.ts",
+    "./**/*.svelte",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
   ],
   "references": [
     {

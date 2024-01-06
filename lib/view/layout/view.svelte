@@ -5,10 +5,10 @@
     type SvelteComponent,
     onMount,
   } from "svelte";
-  import { Header } from "../lib/view/header";
-  import { Navigation } from "../lib/view/navigation";
-  import "../lib/style/global.css";
-  import { initCountly } from "../lib/analytic";
+  import { Header } from "../header";
+  import { Navigation } from "../navigation";
+  import "../../style/global.css";
+  import { initCountly } from "../../analytic";
 
   export let Page: ComponentType;
   export let pageProps: ComponentProps<SvelteComponent>;
@@ -19,6 +19,9 @@
 </script>
 
 <svelte:head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>John Cuba</title>
   <meta name="description" content="John Cuba - web dev" />
 </svelte:head>
