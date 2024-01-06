@@ -13,5 +13,5 @@ declare type Countly = {
 }
 
 declare module 'countly-sdk-web' {
-  export = Countly;
+  export = {} as Countly
 }
