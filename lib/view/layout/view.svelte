@@ -27,7 +27,7 @@
 </svelte:head>
 
 <div class="root">
-  <div class="control">
+  <div class="heading">
     <Header />
     <Navigation />
   </div>
@@ -38,21 +38,22 @@
 
 <style>
   .root {
-    padding-left: var(--space-xl);
-    padding-top: calc(var(--space-3xl) * 3);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    row-gap: var(--space-xl);
+    justify-content: start;
+    align-items: center;
+    height: 100%;
+    row-gap: var(--space-s);
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-xl);
+    row-gap: var(--space-2xs);
   }
 
   .content {
-    min-width: 40%;
-  }
-
-  @media screen and (min-width: 768px) {
-    .root {
-      flex-direction: row;
-    }
+    min-width: 100%;
   }
 </style>

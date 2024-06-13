@@ -17,7 +17,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
         <style>${css.code}</style>
       </head>
       <body>
-        <div id="app">
+        <div id="app" class="app">
           ${dangerouslySkipEscape(html)}
         </div>
       </body>

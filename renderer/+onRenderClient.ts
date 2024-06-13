@@ -10,6 +10,7 @@ const onRenderClient: OnRenderClientSync = (pageContext) => {
   if (!rootElemet) {
     const container = document.createElement('div');
     container.id = 'app';
+    container.className = 'app';
     document.body.appendChild(container);
     rootElemet = container;
   }
