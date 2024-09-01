@@ -66,7 +66,6 @@ onUnmounted(() => {
 }
 
 .circle {
-	--circle-theta: attr(data-theta);
 	width: var(--circle-size);
 	height: var(--circle-size);
 	border-radius: 100%;
