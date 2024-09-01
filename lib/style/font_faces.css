@@ -1,9 +1,0 @@
-@import url('https://fonts.googleapis.com/css2?family=Reddit+Mono&display=swap');
-
-:root {
-  --font-face-josefin-sans: "Reddit Mono", monospace;
-
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-}

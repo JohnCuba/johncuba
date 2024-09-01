@@ -29,17 +29,11 @@ jobs:
 
       - name: Build and push Docker Image
         uses: docker/build-push-action@v4
-        env:
-          VITE_COUNTLY_APP_KEY: ${{ secrets.VITE_COUNTLY_APP_KEY }}
-          VITE_COUNTLY_URL: ${{ secrets.VITE_COUNTLY_URL }}
         with:
           context: .
           file: ./Dockerfile
           push: true
           tags: ${{ env.IMAGE_URL }}
-          build-args: |
-            VITE_COUNTLY_APP_KEY=${{ secrets.VITE_COUNTLY_APP_KEY }}
-            VITE_COUNTLY_URL=${{ secrets.VITE_COUNTLY_URL }}
 
       - name: Deploy Image to CapRrover
         uses: caprover/deploy-from-github@v1.1.2

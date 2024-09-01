@@ -1,27 +1,16 @@
 {
   "name": "johncuba",
   "private": true,
-  "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "gen:env-types": "import-meta-env-typescript -x .env.example",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
-  },
-  "devDependencies": {
-    "@import-meta-env/typescript": "^0.3.3",
-    "@sveltejs/vite-plugin-svelte": "^3.0.1",
-    "@tsconfig/svelte": "^5.0.2",
-    "svelte": "^4.2.8",
-    "svelte-check": "^3.6.2",
-    "tslib": "^2.6.2",
-    "typescript": "^5.2.2",
-    "vike": "^0.4.153",
-    "vite": "^5.0.8"
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "countly-sdk-web": "^23.12.3"
+    "nuxt": "^3.13.0",
+    "vue": "latest"
   }
 }
