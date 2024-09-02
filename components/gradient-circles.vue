@@ -62,7 +62,7 @@ const getCircleStyle = (index: number): StyleValue => {
 	let targetDeg = targetRange;
 	if (targetDeg < 0) targetDeg = 360 + targetDeg; // range [0, 360)
 	return {
-		backgroundImage: `conic-gradient(from ${targetDeg}deg, #000, #fff)`,
+		transform: `rotate(${targetDeg}deg)`,
 	}
 }
 
@@ -108,7 +108,6 @@ onUnmounted(() => {
 	width: var(--circle-size);
 	height: var(--circle-size);
 	border-radius: 100%;
-	will-change: background-image;
 	background-image: conic-gradient(from 0deg, #000, #fff);
 }
 
