@@ -27,6 +27,7 @@ const calcTheta = (target: {x: number, y: number}, current: {x: number, y: numbe
 		const dy = target.y - current.y;
 		const thetaRange = Math.atan2(dy, dx);
 		let thetaDeg = (thetaRange * 180 / Math.PI) + 90;
+		if (thetaDeg < 0) thetaDeg = 360 + thetaDeg; // range [0, 360)
 		return Number(thetaDeg.toFixed(0));
 }
 
@@ -37,9 +38,11 @@ const setCirclesTheta = (x: number, y: number) => {
 
 const resetCirclesTheta = async () => {
 	resetInterval.value = setInterval(() => {
-		const isReset = circlesTheta.value.every((theta) => theta - 90 === 0);
+		const isReset = circlesTheta.value.every((theta) => theta === 0 || theta === 360);
 		if (isReset) clearResetInterval();
-		circlesTheta.value = circlesTheta.value.map((theta) => theta > 0 ? Math.max(0, --theta) : Math.min(0, ++theta));
+		circlesTheta.value = circlesTheta.value.map((theta) => {
+			return theta > 180 ? Math.min(360, ++theta) : Math.max(0, --theta);
+		});
 	}, 10);
 }
 
@@ -58,11 +61,8 @@ const handleBlur = () => {
 }
 
 const getCircleStyle = (index: number): StyleValue => {
-	const targetRange = circlesTheta.value[index];
-	let targetDeg = targetRange;
-	if (targetDeg < 0) targetDeg = 360 + targetDeg; // range [0, 360)
 	return {
-		transform: `rotate(${targetDeg}deg)`,
+		transform: `rotate(${circlesTheta.value[index]}deg)`,
 	}
 }
 
