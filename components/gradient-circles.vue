@@ -2,8 +2,11 @@
 import type { StyleValue } from 'vue';
 const CIRCLES_COUNT = 20;
 
+const rootRef = ref<HTMLDivElement>();
+
 const circlesCoord = ref<{x: number, y: number}[]>([]);
 const circlesTheta = ref<number[]>([]);
+
 const resetInterval = ref<NodeJS.Timeout>();
 
 const clearResetInterval = () => {
@@ -12,19 +15,23 @@ const clearResetInterval = () => {
 	resetInterval.value = undefined;
 }
 
-const setCircleRef = (ref: Element | ComponentPublicInstance | null) => {
-	if (!ref) return;
-	if (circlesCoord.value.length >= CIRCLES_COUNT) return;
-	const boundingClientRect = (<HTMLElement>ref).getBoundingClientRect()
+const setCoords = () => {
+	const length = rootRef.value?.children.length || 0;
+	for (let index = 0; index < length; index++) {
+		const elem = rootRef.value?.children.item(index);
+		if (!elem) return;
 
-	const centerX = boundingClientRect.x + (boundingClientRect.width / 2);
-	const centerY = boundingClientRect.y + (boundingClientRect.height / 2);
-	circlesCoord.value.push({x: centerX, y: centerY})
+		const boundingClientRect = elem.getBoundingClientRect()
+
+		const centerX = boundingClientRect.x + (boundingClientRect.width / 2);
+		const centerY = boundingClientRect.y + (boundingClientRect.height / 2);
+		circlesCoord.value[index] = {x: centerX, y: centerY}
+	}
 }
 
-const calcTheta = (target: {x: number, y: number}, current: {x: number, y: number}) => {
-		const dx = target.x - current.x;
-		const dy = target.y - current.y;
+const calcTheta = (target: {x: number, y: number}, root: {x: number, y: number}) => {
+		const dx = target.x - root.x;
+		const dy = target.y - root.y;
 		const thetaRange = Math.atan2(dy, dx);
 		let thetaDeg = (thetaRange * 180 / Math.PI) + 90;
 		if (thetaDeg < 0) thetaDeg = 360 + thetaDeg; // range [0, 360)
@@ -33,7 +40,7 @@ const calcTheta = (target: {x: number, y: number}, current: {x: number, y: numbe
 
 const setCirclesTheta = (x: number, y: number) => {
 	clearResetInterval();
-	circlesTheta.value = circlesCoord.value.map((current) => calcTheta({x, y}, current))
+	circlesTheta.value = circlesCoord.value.map((coords) => calcTheta({x, y}, coords))
 }
 
 const resetCirclesTheta = async () => {
@@ -45,7 +52,6 @@ const resetCirclesTheta = async () => {
 		});
 	}, 10);
 }
-
 
 const handleMouseMove = (e: MouseEvent) => {
 	setCirclesTheta(e.pageX, e.pageY);
@@ -67,6 +73,8 @@ const getCircleStyle = (index: number): StyleValue => {
 }
 
 onMounted(() => {
+	setCoords();
+
 	document.addEventListener('mousemove', handleMouseMove, false);
 	document.addEventListener('mouseleave', handleBlur, false);
 	document.addEventListener('touchmove', handleTouch, false);
@@ -82,12 +90,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div :class="$style.root">
+	<div :class="$style.root" ref="rootRef">
 		<div
 			v-for="(entity, index) in CIRCLES_COUNT"
 			:key="entity"
 			:class="$style.circle"
-			:ref="setCircleRef"
 			:style="getCircleStyle(index)"
 		>
 		</div>
