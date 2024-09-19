@@ -155,5 +155,6 @@ export class SingleGameplay implements Scene {
 		this.player.destroy();
 		this.npc.destroy();
 		this.ball.destroy();
+		this.view.destroy();
 	}
 }

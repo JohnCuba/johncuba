@@ -1,8 +1,9 @@
-import { Color, Container, FillGradient, Graphics, Text, TextStyle } from 'pixi.js';
+import { Container, Graphics } from 'pixi.js';
 import type { Scene } from './types';
 import type { Coordinator } from '../coordinator';
 import { Button } from '@pixi/ui';
 import { SingleGameplay } from './single-gameplay';
+import { StyledText } from '../shared/styled-text';
 
 export class MainMenuScene implements Scene {
 
@@ -17,13 +18,8 @@ export class MainMenuScene implements Scene {
 	}
 
 	private createPlayButton() {
-		const text = new Text({
+		const text = new StyledText({
 			text: 'play',
-			style: new TextStyle({
-				fontFamily: 'New Amsterdam',
-				fontSize: 64,
-				fill: new FillGradient(0, 0, 0, 0).addColorStop(0, Color.shared.setValue(0xffffff)),
-			}),
 		});
 
 		const wrapper = new Graphics({
@@ -52,5 +48,6 @@ export class MainMenuScene implements Scene {
 	}
 
 	onFinish(): void {
+		this.view.destroy();
 	}
 }

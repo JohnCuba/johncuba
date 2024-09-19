@@ -1,4 +1,5 @@
-import { Color, Container, FillGradient, Graphics, Text, TextStyle } from "pixi.js";
+import { Container, Graphics, Text } from "pixi.js";
+import { StyledText } from "../shared/styled-text";
 
 interface MarkupConfig {
 	endX: number
@@ -32,25 +33,15 @@ export class Markup {
 	}
 
 	private createScore() {
-		const scoreLeft = new Text({
+		const scoreLeft = new StyledText({
 			text: this.score[0],
 			y: 50,
-			style: new TextStyle({
-				fontFamily: 'New Amsterdam',
-				fontSize: 64,
-				fill: new FillGradient(0, 0, 0, 0).addColorStop(0, Color.shared.setValue(0xffffff)),
-			})
 		});
 		scoreLeft.x = (this.config.endX / 2) - 50 - scoreLeft.width;
 
-		const scoreRight = new Text({
+		const scoreRight = new StyledText({
 			text: this.score[1],
 			y: 50,
-			style: new TextStyle({
-				fontFamily: 'New Amsterdam',
-				fontSize: 64,
-				fill: new FillGradient(0, 0, 0, 0).addColorStop(0, Color.shared.setValue(0xffffff)),
-			})
 		});
 		scoreRight.x = (this.config.endX / 2) + 50;
 

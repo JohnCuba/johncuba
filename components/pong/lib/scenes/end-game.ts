@@ -1,8 +1,9 @@
-import { Color, Container, FillGradient, Graphics, Text, TextStyle, type ContainerChild, type TickerCallback } from 'pixi.js';
+import { Container, Graphics, Text } from 'pixi.js';
 import type { Scene } from './types';
 import { Button } from '@pixi/ui';
 import type { Coordinator } from '../coordinator';
 import { SingleGameplay } from './single-gameplay';
+import { StyledText } from '../shared/styled-text';
 
 export class EndGame implements Scene {
 	view: Container = new Container();
@@ -18,13 +19,8 @@ export class EndGame implements Scene {
 	}
 
 	private createTitle(scores: number[]) {
-		const text = new Text({
+		const text = new StyledText({
 			text: `${scores[0] >= 5 ? 'Left' : 'Right'} player win! ${scores.join(' - ')}`,
-			style: new TextStyle({
-				fontFamily: 'New Amsterdam',
-				fontSize: 64,
-				fill: new FillGradient(0, 0, 0, 0).addColorStop(0, Color.shared.setValue(0xffffff)),
-			}),
 		});
 		text.x = (this.coordinator.pixiApp.canvas.width - text.width) / 2;
 		text.y = this.coordinator.pixiApp.canvas.height / 3;
@@ -33,13 +29,8 @@ export class EndGame implements Scene {
 	}
 
 	private createPlayAgen() {
-		const text = new Text({
+		const text = new StyledText({
 			text: 'play agen',
-			style: new TextStyle({
-				fontFamily: 'New Amsterdam',
-				fontSize: 64,
-				fill: new FillGradient(0, 0, 0, 0).addColorStop(0, Color.shared.setValue(0xffffff)),
-			}),
 		});
 
 		const wrapper = new Graphics({
@@ -68,5 +59,6 @@ export class EndGame implements Scene {
 	};
 
 	onFinish(): void {
+		this.view.destroy();
 	}
 }
