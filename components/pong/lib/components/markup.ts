@@ -7,14 +7,14 @@ interface MarkupConfig {
 }
 
 export class Markup {
-	private config: MarkupConfig;
 	private middleLine: Graphics;
 	score: number[] = [0, 0];
 	private scoreLeft: Text;
 	private scoreRight: Text;
 
-	constructor(config: MarkupConfig) {
-		this.config = config;
+	constructor(
+		protected config: MarkupConfig
+	) {
 		this.middleLine = this.createMiddleLine();
 		[this.scoreLeft, this.scoreRight] = this.createScore();
 	}

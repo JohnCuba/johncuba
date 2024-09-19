@@ -7,7 +7,6 @@ import { Markup } from '../components/markup';
 import { EndGame } from './end-game';
 
 export class SingleGameplay implements Scene {
-	private coordinator: Coordinator;
 
 	view: Container = new Container();
 	markup: Markup;
@@ -15,8 +14,15 @@ export class SingleGameplay implements Scene {
 	npc: Player;
 	ball: Ball;
 
-	constructor(coordinator: Coordinator) {
-		this.coordinator = coordinator;
+	paddleSideGap: number = 20;
+	paddleHeight: number;
+	paddleWidth: number;
+
+	constructor(
+		protected coordinator: Coordinator
+	) {
+		this.paddleHeight = this.coordinator.pixiApp.canvas.height * 0.2;
+		this.paddleWidth = this.coordinator.pixiApp.canvas.width * 0.01;
 		this.markup = this.createMarkup();
 		this.player = this.createPlayer();
 		this.npc = this.createNpc();
@@ -33,9 +39,11 @@ export class SingleGameplay implements Scene {
 
 	private createPlayer() {
 		const player = new Player({
-			x: 20,
+			x: this.paddleSideGap,
 			y: 0,
-			maxY: this.coordinator.pixiApp.canvas.height - Player.height,
+			width: this.paddleWidth,
+			height: this.paddleHeight,
+			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
 			control: new KeyboardControl('ArrowUp', 'ArrowDown'),
 		});
 		return player;
@@ -43,16 +51,18 @@ export class SingleGameplay implements Scene {
 
 	private createNpc() {
 		const npc = new Player({
-			x: this.coordinator.pixiApp.canvas.width - Player.width - 20,
+			x: this.coordinator.pixiApp.canvas.width - this.paddleWidth - this.paddleSideGap,
 			y: 0,
-			maxY: this.coordinator.pixiApp.canvas.height - Player.height,
+			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
+			width: this.paddleWidth,
+			height: this.paddleHeight,
 		});
 		return npc;
 	}
 
 	private createBall() {
 		const ball = new Ball({
-			radius: 50,
+			radius: this.coordinator.pixiApp.canvas.height * 0.06,
 			x: (this.coordinator.pixiApp.canvas.width - 50) / 2,
 			y: (this.coordinator.pixiApp.canvas.height - 50) / 2,
 			velocityX: 4,
@@ -64,9 +74,9 @@ export class SingleGameplay implements Scene {
 	checkCollision = (player: Player) => {
 		return !(
 			this.ball.x + this.ball.radius < player.x ||
-			player.x + Player.width < this.ball.x ||
+			player.x + this.paddleWidth < this.ball.x ||
 			this.ball.y + this.ball.radius < player.y ||
-			player.y + Player.height < this.ball.y
+			player.y + this.paddleHeight < this.ball.y
 		)
 	}
 
@@ -74,7 +84,7 @@ export class SingleGameplay implements Scene {
 		const player = [this.player, this.npc].find(this.checkCollision);
 
 		if (player) {
-			const playerMiddle = player.y + (Player.height / 2);
+			const playerMiddle = player.y + (this.paddleHeight / 2);
 			const ballMiddle = this.ball.y + (this.ball.radius / 2);
 			const middleDelta = ballMiddle - playerMiddle;
 			this.ball.velocityX = -this.ball.velocityX;
@@ -144,5 +154,6 @@ export class SingleGameplay implements Scene {
 	onFinish(): void {
 		this.player.destroy();
 		this.npc.destroy();
+		this.ball.destroy();
 	}
 }

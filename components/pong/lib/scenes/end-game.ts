@@ -5,21 +5,21 @@ import type { Coordinator } from '../coordinator';
 import { SingleGameplay } from './single-gameplay';
 
 export class EndGame implements Scene {
-	private coordinator: Coordinator;
-
 	view: Container = new Container();
 	playAgen: Button;
 	title: Text;
 
-	constructor(coordinator: Coordinator, scores: number[]) {
-		this.coordinator = coordinator;
+	constructor(
+		protected coordinator: Coordinator,
+		scores: number[]
+	) {
 		this.playAgen = this.createPlayAgen();
 		this.title = this.createTitle(scores);
 	}
 
 	private createTitle(scores: number[]) {
 		const text = new Text({
-			text: `${scores[0] >= 10 ? 'Left' : 'Right'} player win! ${scores.join(' - ')}`,
+			text: `${scores[0] >= 5 ? 'Left' : 'Right'} player win! ${scores.join(' - ')}`,
 			style: new TextStyle({
 				fontFamily: 'New Amsterdam',
 				fontSize: 64,

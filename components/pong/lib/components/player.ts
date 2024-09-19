@@ -4,6 +4,8 @@ export interface PlayerConfig {
   x: number
   y: number
   maxY: number
+	width: number
+	height: number
   control?: KeyboardControl | 'target'
 }
 
@@ -19,23 +21,21 @@ export class KeyboardControl {
 
 export class Player {
   private view: Graphics = new Graphics();
-	static width: number = 25;
-	static height: number = 200; 
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+  private maxY: number;
   private speed: number = 5;
-  private config: PlayerConfig;
   runDirection: null | 'up' | 'down' = null
   score: number = 0;
 
-  get x() {
-    return this.config.x;
-  }
-
-  get y() {
-    return this.config.y;
-  }
-
   constructor(config: PlayerConfig) {
-    this.config = config;
+    this.maxY = config.maxY;
+    this.x = config.x;
+    this.y = config.y;
+    this.width = config.width;
+    this.height = config.height;
 
 		this.onTick();
 
@@ -63,9 +63,9 @@ export class Player {
 	}
 
   controlByTarget(target: number) {
-    if (target > this.config.y) {
+    if (target > this.y) {
       this.runDirection = 'down';
-    } else if (target < this.config.y) {
+    } else if (target < this.y) {
       this.runDirection = 'up';
     } else {
       this.runDirection = null;
@@ -75,17 +75,17 @@ export class Player {
   onTick() {
     switch (this.runDirection) {
       case('up'): {
-        this.config.y = Math.max(this.config.y - this.speed, 0);
+        this.y = Math.max(this.y - this.speed, 0);
         break;
       };
       case('down'): {
-        this.config.y = Math.min(this.config.y + this.speed, this.config.maxY);
+        this.y = Math.min(this.y + this.speed, this.maxY);
         break;
       };
       default: break;
     }
 
-    this.view.clear().rect(this.config.x, this.config.y, Player.width, Player.height).fill('#fff');
+    this.view.clear().rect(this.x, this.y, this.width, this.height).fill('#fff');
   }
 
   public render(stage: Container): void {

@@ -2,12 +2,11 @@ import type { Application, Renderer } from "pixi.js";
 import type { Scene } from "./scenes/types";
 
 export class Coordinator {
-	pixiApp: Application<Renderer>;
 	currentScene: Scene | undefined;
 
-	constructor(pixiApp: Application<Renderer>) {
-		this.pixiApp = pixiApp;
-	}
+	constructor(
+		public pixiApp: Application<Renderer>
+	) {}
 
 	goToScene(scene: Scene) {
 		if (this.currentScene) {

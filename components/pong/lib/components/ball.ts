@@ -57,4 +57,8 @@ export class Ball {
 		)
 		.fill('#fff');
 	}
+
+  public destroy(): void {
+    this.view.destroy();
+  }
 }

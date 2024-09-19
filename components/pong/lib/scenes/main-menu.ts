@@ -5,14 +5,14 @@ import { Button } from '@pixi/ui';
 import { SingleGameplay } from './single-gameplay';
 
 export class MainMenuScene implements Scene {
-	private coordinator: Coordinator;
 
 	view: Container = new Container()
 
 	playButton: Button;
 
-	constructor(coordinator: Coordinator) {
-		this.coordinator = coordinator;
+	constructor(
+		protected coordinator: Coordinator
+	) {
 		this.playButton = this.createPlayButton();
 	}
 
