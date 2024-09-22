@@ -18,6 +18,7 @@ export class PongGame {
 
 		await this.pixiApp.init({
 			resizeTo: rootElem,
+			preference: 'webgpu',
 		});
 
 		rootElem.appendChild(this.pixiApp.canvas);
