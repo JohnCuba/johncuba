@@ -1,21 +1,20 @@
-import { Container, Graphics, Text } from 'pixi.js';
+import { Container, Graphics } from 'pixi.js';
 import type { Scene } from './types';
 import { Button } from '@pixi/ui';
 import type { Coordinator } from '../coordinator';
 import { SingleGameplay } from './single-gameplay';
 import { StyledText } from '../shared/styled-text';
+import { SelectControl } from './select-control';
 
 export class EndGame implements Scene {
 	view: Container = new Container();
-	playAgen: Button;
-	title: Text;
 
 	constructor(
 		protected coordinator: Coordinator,
 		scores: number[]
 	) {
-		this.playAgen = this.createPlayAgen();
-		this.title = this.createTitle(scores);
+		this.createPlayAgen();
+		this.createTitle(scores);
 	}
 
 	private createTitle(scores: number[]) {
@@ -25,7 +24,7 @@ export class EndGame implements Scene {
 		text.x = (this.coordinator.pixiApp.canvas.width - text.width) / 2;
 		text.y = this.coordinator.pixiApp.canvas.height / 3;
 
-		return text;
+		this.view.addChild(text);
 	}
 
 	private createPlayAgen() {
@@ -43,16 +42,20 @@ export class EndGame implements Scene {
 
 		button.press = this.handlePressPlayAgen.bind(this);
 
-		return button;
+		this.view.addChild(button.view);
 	}
 
 	handlePressPlayAgen() {
-		this.coordinator.goToScene(new SingleGameplay(this.coordinator));
+		this.coordinator.goToScene(
+			new SelectControl(
+				this.coordinator,
+				() => this.coordinator.goToScene(new SingleGameplay(this.coordinator)),
+			)
+		);
 	}
 
 	onStart(): void {
-		if (!this.playAgen) return;
-		this.coordinator.pixiApp.stage.addChild(this.title, this.playAgen.view);
+		this.coordinator.pixiApp.stage.addChild(this.view);
 	}
 
 	onTick() {

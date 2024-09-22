@@ -4,17 +4,16 @@ import type { Coordinator } from '../coordinator';
 import { Button } from '@pixi/ui';
 import { SingleGameplay } from './single-gameplay';
 import { StyledText } from '../shared/styled-text';
+import { SelectControl } from './select-control';
 
 export class MainMenuScene implements Scene {
 
 	view: Container = new Container()
 
-	playButton: Button;
-
 	constructor(
 		protected coordinator: Coordinator
 	) {
-		this.playButton = this.createPlayButton();
+		this.createPlayButton();
 	}
 
 	private createPlayButton() {
@@ -32,16 +31,20 @@ export class MainMenuScene implements Scene {
 
 		button.press = this.handlePressPlay.bind(this);
 
-		return button;
+		this.view.addChild(button.view);
 	}
 
 	handlePressPlay() {
-		this.coordinator.goToScene(new SingleGameplay(this.coordinator));
+		this.coordinator.goToScene(
+			new SelectControl(
+				this.coordinator,
+				() => this.coordinator.goToScene(new SingleGameplay(this.coordinator)),
+			)
+		);
 	}
 
 	onStart(): void {
-		if (!this.playButton) return;
-		this.coordinator.pixiApp.stage.addChild(this.playButton.view);
+		this.coordinator.pixiApp.stage.addChild(this.view);
 	}
 
 	onTick() {

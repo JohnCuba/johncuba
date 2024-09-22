@@ -1,13 +1,12 @@
 import { Container } from 'pixi.js';
 import type { Scene } from './types';
 import type { Coordinator } from '../coordinator';
-import { KeyboardControl, Player } from '../components/player';
+import { Player } from '../components/player';
 import { Ball } from '../components/ball';
 import { Markup } from '../components/markup';
 import { EndGame } from './end-game';
 
 export class SingleGameplay implements Scene {
-
 	view: Container = new Container();
 	markup: Markup;
 	player: Player;
@@ -19,7 +18,7 @@ export class SingleGameplay implements Scene {
 	paddleWidth: number;
 
 	constructor(
-		protected coordinator: Coordinator
+		protected coordinator: Coordinator,
 	) {
 		this.paddleHeight = this.coordinator.pixiApp.canvas.height * 0.2;
 		this.paddleWidth = this.coordinator.pixiApp.canvas.width * 0.01;
@@ -44,7 +43,7 @@ export class SingleGameplay implements Scene {
 			width: this.paddleWidth,
 			height: this.paddleHeight,
 			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
-			control: new KeyboardControl('ArrowUp', 'ArrowDown'),
+			control: this.coordinator.options.controlBy,
 		});
 		return player;
 	}
@@ -57,6 +56,7 @@ export class SingleGameplay implements Scene {
 			width: this.paddleWidth,
 			height: this.paddleHeight,
 			speed: 4,
+			control: 'target'
 		});
 		return npc;
 	}
@@ -143,8 +143,7 @@ export class SingleGameplay implements Scene {
 
 	onTick = () => {
 		this.player.onTick();
-		this.npc.controlByTarget(this.ball.y);
-		this.npc.onTick();
+		this.npc.onTickByTarget(this.ball.y);
 		this.checkBallHitPlayer();
 		this.checkBallHitSide();
 		this.ball.onTick();

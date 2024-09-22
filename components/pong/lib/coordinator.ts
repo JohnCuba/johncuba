@@ -1,12 +1,32 @@
 import type { Application, Renderer } from "pixi.js";
 import type { Scene } from "./scenes/types";
 
+type Options = {
+	controlBy: 'keyboard' | 'mouse'
+}
+
+type PartialOptions = {
+  [P in keyof Options]?: Options[P];
+};
+
 export class Coordinator {
 	currentScene: Scene | undefined;
 
 	constructor(
-		public pixiApp: Application<Renderer>
+		public pixiApp: Application<Renderer>,
+		protected _options: Options,
 	) {}
+
+	get options() {
+		return this._options;
+	}
+
+	setOptions(options: PartialOptions) {
+		this._options = {
+			...this.options,
+			...options
+		};
+	}
 
 	goToScene(scene: Scene) {
 		if (this.currentScene) {

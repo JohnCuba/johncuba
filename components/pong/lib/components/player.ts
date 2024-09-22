@@ -1,4 +1,5 @@
-import { Container, Graphics } from 'pixi.js';
+import { Container, type FederatedPointerEvent, Graphics } from 'pixi.js';
+import type { Coordinator } from '../coordinator';
 
 export interface PlayerConfig {
   x: number
@@ -6,18 +7,8 @@ export interface PlayerConfig {
   maxY: number
 	width: number
 	height: number
-  control?: KeyboardControl | 'target'
+  control: Coordinator['options']['controlBy'] | 'target'
   speed?: number
-}
-
-export class KeyboardControl {
-  keyLeft: string
-  keyRight: string
-
-  constructor(keyLeft: string, keyRight: string) {
-    this.keyLeft = keyLeft;
-    this.keyRight = keyRight;
-  }
 }
 
 export class Player {
@@ -30,6 +21,7 @@ export class Player {
   private speed: number = 5;
   runDirection: null | 'up' | 'down' = null
   score: number = 0;
+  control: PlayerConfig['control'];
 
   constructor(config: PlayerConfig) {
     this.maxY = config.maxY;
@@ -38,33 +30,48 @@ export class Player {
     this.width = config.width;
     this.height = config.height;
     this.speed = config.speed || 5;
+    this.control = config.control;
 
-		this.onTick();
-
-		if (config.control instanceof KeyboardControl) {
-			this.controlByKeyboard(config.control);
+		if (config.control === 'keyboard') {
+			this.setupControlByKeyboard();
 		}
   }
+// Control by mouse start
+  private handlePointerMove = (event: PointerEvent) => {
+    this.onTick(event.y);
+  }
+  private setupControlByMouse = () => {
+    document.addEventListener('pointermove', this.handlePointerMove);
+  }
+  private destroyControlByMouse() {
+    document.removeEventListener('pointermove', this.handlePointerMove);
+  }
+// Control by mouse end
 
-	private controlByKeyboard(config: KeyboardControl) {
-    document.addEventListener('keydown', (event) => {
-      if (event.key === config.keyLeft) {
-        this.runDirection = 'up';
-      } else if (event.key === config.keyRight) {
-        this.runDirection = 'down';
-      }
-    });
-
-    document.addEventListener('keyup', (event) => {
-      if (event.key === config.keyLeft) {
-        this.runDirection = null;
-      } else if (event.key === config.keyRight) {
-        this.runDirection = null;
-      }
-    });
+// Control by keyboard start
+  private handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'ArrowUp') {
+      this.runDirection = 'up';
+    } else if (event.key === 'ArrowDown') {
+      this.runDirection = 'down';
+    }
+  }
+  private handleKeyUp = (event: KeyboardEvent) => {
+    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+      this.runDirection = null;
+    }
+  }
+	private setupControlByKeyboard() {
+    document.addEventListener('keydown', this.handleKeyDown);
+    document.addEventListener('keyup', this.handleKeyUp);
 	}
+  private destroyControlByKeyboard() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+    document.removeEventListener('keyup', this.handleKeyUp);
+  }
+// Control by keyboard end
 
-  controlByTarget(target: number) {
+  onTickByTarget(target: number) {
     if (target > this.y) {
       this.runDirection = 'down';
     } else if (target < this.y) {
@@ -72,9 +79,13 @@ export class Player {
     } else {
       this.runDirection = null;
     }
+
+    this.onTick();
   }
 
-  onTick() {
+  onTick(y?: number) {
+    if (y) this.y = y;
+
     switch (this.runDirection) {
       case('up'): {
         this.y = Math.max(this.y - this.speed, 0);
@@ -91,10 +102,16 @@ export class Player {
   }
 
   public render(stage: Container): void {
+		if (this.control === 'mouse') {
+			this.setupControlByMouse();
+		}
+
     stage.addChild(this.view);
   }
 
   public destroy(): void {
+    this.destroyControlByKeyboard();
+    this.destroyControlByMouse();
     this.view.destroy();
   }
 }
