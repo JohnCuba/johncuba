@@ -56,6 +56,7 @@ export class SingleGameplay implements Scene {
 			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
 			width: this.paddleWidth,
 			height: this.paddleHeight,
+			speed: 4,
 		});
 		return npc;
 	}

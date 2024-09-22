@@ -7,6 +7,7 @@ export interface PlayerConfig {
 	width: number
 	height: number
   control?: KeyboardControl | 'target'
+  speed?: number
 }
 
 export class KeyboardControl {
@@ -36,6 +37,7 @@ export class Player {
     this.y = config.y;
     this.width = config.width;
     this.height = config.height;
+    this.speed = config.speed || 5;
 
 		this.onTick();
 
