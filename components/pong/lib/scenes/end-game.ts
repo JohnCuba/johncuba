@@ -2,7 +2,7 @@ import { Container, Graphics } from 'pixi.js';
 import type { Scene } from './types';
 import { Button } from '@pixi/ui';
 import type { Coordinator } from '../coordinator';
-import { SingleGameplay } from './single-gameplay';
+import { SingleplayerGameplay } from './gameplay';
 import { StyledText } from '../shared/styled-text';
 import { SelectControl } from './select-control';
 
@@ -49,7 +49,7 @@ export class EndGame implements Scene {
 		this.coordinator.goToScene(
 			new SelectControl(
 				this.coordinator,
-				() => this.coordinator.goToScene(new SingleGameplay(this.coordinator)),
+				() => this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator)),
 			)
 		);
 	}

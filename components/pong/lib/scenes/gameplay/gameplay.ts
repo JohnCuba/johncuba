@@ -1,16 +1,16 @@
-import { Container } from 'pixi.js';
-import type { Scene } from './types';
-import type { Coordinator } from '../coordinator';
-import { Player } from '../components/player';
-import { Ball } from '../components/ball';
-import { Markup } from '../components/markup';
-import { EndGame } from './end-game';
+import { Container, type ContainerChild, type TickerCallback } from "pixi.js";
+import type { Scene } from "../types";
+import { Markup } from "../../components/markup";
+import type { Coordinator } from "../../coordinator";
+import { Ball } from "../../components/ball";
+import type { Player } from "../../components/player";
+import { EndGame } from "../end-game";
 
-export class SingleGameplay implements Scene {
+export abstract class Gameplay implements Scene {
 	view: Container = new Container();
 	markup: Markup;
-	player: Player;
-	npc: Player;
+	playerLeft: Player;
+	playerRight: Player;
 	ball: Ball;
 
 	paddleSideGap: number = 20;
@@ -23,12 +23,12 @@ export class SingleGameplay implements Scene {
 		this.paddleHeight = this.coordinator.pixiApp.canvas.height * 0.2;
 		this.paddleWidth = this.coordinator.pixiApp.canvas.width * 0.01;
 		this.markup = this.createMarkup();
-		this.player = this.createPlayer();
-		this.npc = this.createNpc();
+		this.playerLeft = this.createPlayerLeft();
+		this.playerRight = this.createPlayerRight();
 		this.ball = this.createBall();
 	}
 
-	private createMarkup() {
+	createMarkup() {
 		return new Markup({
 			endX: this.coordinator.pixiApp.canvas.width,
 			endY: this.coordinator.pixiApp.canvas.height,
@@ -36,29 +36,12 @@ export class SingleGameplay implements Scene {
 		})
 	}
 
-	private createPlayer() {
-		const player = new Player({
-			x: this.paddleSideGap,
-			y: 0,
-			width: this.paddleWidth,
-			height: this.paddleHeight,
-			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
-			control: this.coordinator.options.controlBy,
-		});
-		return player;
+	createPlayerLeft(): Player {
+		throw new Error("Gameplay: Method createPlayerLeft not implemented.");
 	}
 
-	private createNpc() {
-		const npc = new Player({
-			x: this.coordinator.pixiApp.canvas.width - this.paddleWidth - this.paddleSideGap,
-			y: 0,
-			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
-			width: this.paddleWidth,
-			height: this.paddleHeight,
-			speed: 4,
-			control: 'target'
-		});
-		return npc;
+	createPlayerRight(): Player {
+		throw new Error("Gameplay: Method createPlayerRight not implemented.");
 	}
 
 	private createBall() {
@@ -72,7 +55,7 @@ export class SingleGameplay implements Scene {
 		return ball;
 	}
 
-	checkCollision = (player: Player) => {
+	private checkCollision = (player: Player) => {
 		return !(
 			this.ball.x + this.ball.radius < player.x ||
 			player.x + this.paddleWidth < this.ball.x ||
@@ -81,8 +64,8 @@ export class SingleGameplay implements Scene {
 		)
 	}
 
-	checkBallHitPlayer() {
-		const player = [this.player, this.npc].find(this.checkCollision);
+	protected checkBallHitPlayer() {
+		const player = [this.playerLeft, this.playerRight].find(this.checkCollision);
 
 		if (player) {
 			const playerMiddle = player.y + (this.paddleHeight / 2);
@@ -93,7 +76,7 @@ export class SingleGameplay implements Scene {
 		}
 	}
 
-	playerPass() {
+	private playerRightPass() {
 		this.markup.score[1] += 1;
 		this.ball.reset({
 			x: (this.coordinator.pixiApp.canvas.width - 50) / 2,
@@ -103,7 +86,7 @@ export class SingleGameplay implements Scene {
 		});
 	}
 
-	npcPass() {
+	private playerLeftPass() {
 		this.markup.score[0] += 1;
 		this.ball.reset({
 			x: (this.coordinator.pixiApp.canvas.width - 50) / 2,
@@ -113,13 +96,13 @@ export class SingleGameplay implements Scene {
 		});
 	}
 
-	checkBallHitSide() {
+	protected checkBallHitSide() {
 		if (this.ball.x < 0) {
-			this.playerPass();
+			this.playerRightPass();
 		};
 
     if (this.ball.x + this.ball.radius > this.coordinator.pixiApp.canvas.width) {
-      this.npcPass();
+      this.playerLeftPass();
     }
 
     if (this.ball.y + this.ball.radius > this.coordinator.pixiApp.canvas.height || this.ball.y < 0) {
@@ -127,7 +110,7 @@ export class SingleGameplay implements Scene {
     }
 	}
 
-	checkScore() {
+	protected checkScore() {
 		const score = this.markup.score.find((score) => score >= 5);
 		if (!score) return;
 
@@ -136,24 +119,18 @@ export class SingleGameplay implements Scene {
 
 	onStart(): void {
 		this.markup.render(this.coordinator.pixiApp.stage);
-		this.player.render(this.coordinator.pixiApp.stage);
-		this.npc.render(this.coordinator.pixiApp.stage);
+		this.playerLeft.render(this.coordinator.pixiApp.stage);
+		this.playerRight.render(this.coordinator.pixiApp.stage);
 		this.ball.render(this.coordinator.pixiApp.stage);
 	}
 
-	onTick = () => {
-		this.player.onTick();
-		this.npc.onTickByTarget(this.ball.y);
-		this.checkBallHitPlayer();
-		this.checkBallHitSide();
-		this.ball.onTick();
-		this.markup.onTick();
-		this.checkScore();
-	}
+	onTick: TickerCallback<any> = () => {
+		throw new Error("Method not implemented.");
+	};
 
 	onFinish(): void {
-		this.player.destroy();
-		this.npc.destroy();
+		this.playerLeft.destroy();
+		this.playerRight.destroy();
 		this.ball.destroy();
 		this.view.destroy();
 	}
