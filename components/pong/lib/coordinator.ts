@@ -1,12 +1,16 @@
-import type { Application, Renderer } from "pixi.js";
-import type { Scene } from "./scenes/types";
+import type { Application, Renderer } from 'pixi.js';
+import type { Scene } from './scenes/types';
 
 type Options = {
-	controlBy: 'keyboard' | 'mouse'
-}
+	controlBy: 'keyboard' | 'mouse';
+};
 
 type PartialOptions = {
-  [P in keyof Options]?: Options[P];
+	[P in keyof Options]?: Options[P];
+};
+
+const defaultOptions: Options = {
+	controlBy: 'mouse',
 };
 
 export class Coordinator {
@@ -14,7 +18,7 @@ export class Coordinator {
 
 	constructor(
 		public pixiApp: Application<Renderer>,
-		protected _options: Options,
+		protected _options: Options = defaultOptions,
 	) {}
 
 	get options() {
@@ -24,7 +28,7 @@ export class Coordinator {
 	setOptions(options: PartialOptions) {
 		this._options = {
 			...this.options,
-			...options
+			...options,
 		};
 	}
 

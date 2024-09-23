@@ -1,5 +1,5 @@
-import { Gameplay } from "./gameplay";
-import { Player } from "../../components/player";
+import { Player } from '../../components/player';
+import { Gameplay } from './interface';
 
 export class MultiplayerLocalGameplay extends Gameplay {
 	override createPlayerLeft() {
@@ -16,12 +16,18 @@ export class MultiplayerLocalGameplay extends Gameplay {
 
 	override createPlayerRight() {
 		const player = new Player({
-			x: this.coordinator.pixiApp.canvas.width - this.paddleWidth - this.paddleSideGap,
+			x:
+				this.coordinator.pixiApp.canvas.width
+				- this.paddleWidth
+				- this.paddleSideGap,
 			y: 0,
 			width: this.paddleWidth,
 			height: this.paddleHeight,
 			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
-			control: this.coordinator.options.controlBy === 'keyboard' ? 'mouse' : 'keyboard',
+			control:
+				this.coordinator.options.controlBy === 'keyboard'
+					? 'mouse'
+					: 'keyboard',
 		});
 		return player;
 	}
@@ -34,5 +40,5 @@ export class MultiplayerLocalGameplay extends Gameplay {
 		this.ball.onTick();
 		this.markup.onTick();
 		this.checkScore();
-	}
+	};
 }

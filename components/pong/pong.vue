@@ -7,12 +7,14 @@ const appRef = ref<PongGame>(new PongGame());
 
 onMounted(async () => {
 	appRef.value?.init(rootRef.value);
-})
+});
 </script>
 
 <template>
-	<div ref="rootRef" :class="$style.root">
-	</div>
+	<div
+		ref="rootRef"
+		:class="$style.root"
+	/>
 </template>
 
 <style module>

@@ -1,13 +1,16 @@
 <template>
-	<NuxtLayout name="poster" :class="$style.root">
+	<NuxtLayout
+		name="poster"
+		:class="$style.root"
+	>
 		<template #navigation>
-			<Navigation />
+			<PageNavigation />
 		</template>
 		<template #content>
 			<GradientCircles />
 		</template>
 		<template #header>
-			<Header />
+			<PageHeader />
 		</template>
 	</NuxtLayout>
 </template>

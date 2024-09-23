@@ -16,9 +16,15 @@ const route = useRoute();
 <template>
 	<nav :class="$style.nav">
 		<ul :class="$style.links">
-			<template v-for="entity in LINKS">
-				<li v-if="route.path !== entity.link">
-					<NuxtLink :to="entity.link" :class="$style.link">
+			<template v-for="(entity, index) in LINKS">
+				<li
+					v-if="route.path !== entity.link"
+					:key="index"
+				>
+					<NuxtLink
+						:to="entity.link"
+						:class="$style.link"
+					>
 						{{ entity.title }}
 					</NuxtLink>
 				</li>

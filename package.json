@@ -1,19 +1,25 @@
 {
-  "name": "johncuba",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev --host",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@nuxtjs/google-fonts": "^3.2.0",
-    "@pixi/ui": "^2.1.5",
-    "nuxt": "^3.13.0",
-    "pixi.js": "^8.3.4",
-    "vue": "latest"
-  }
+	"name": "johncuba",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev --host",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"dependencies": {
+		"@nuxt/eslint": "^0.5.7",
+		"@nuxtjs/google-fonts": "^3.2.0",
+		"@pixi/ui": "^2.1.5",
+		"nuxt": "^3.13.0",
+		"pixi.js": "^8.3.4",
+		"vue": "latest"
+	},
+	"devDependencies": {
+		"typescript": "5.5.4"
+	}
 }

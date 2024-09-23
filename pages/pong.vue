@@ -1,12 +1,15 @@
 <template>
-	<NuxtLayout name="full-screen" :class="$style.root">
+	<NuxtLayout
+		name="full-screen"
+		:class="$style.root"
+	>
 		<template #content>
 			<ClientOnly>
 				<Pong />
 			</ClientOnly>
 		</template>
 		<template #header>
-			<Header />
+			<PageHeader />
 		</template>
 	</NuxtLayout>
 </template>

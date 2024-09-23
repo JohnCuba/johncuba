@@ -1,4 +1,4 @@
-import { Application, type Renderer, } from 'pixi.js';
+import { Application, type Renderer } from 'pixi.js';
 import { Coordinator } from './coordinator';
 import { MainMenuScene } from './scenes/main-menu';
 
@@ -9,8 +9,8 @@ export class PongGame {
 	constructor() {
 		this.pixiApp = new Application();
 		this.coordinator = new Coordinator(this.pixiApp);
-		// @ts-ignore -- devtools
-		window['__PIXI_APP__'] = this.pixiApp;
+		// @ts-expect-error -- devtools
+		window.__PIXI_APP__ = this.pixiApp;
 	}
 
 	async init(rootElem?: HTMLDivElement) {

@@ -1,10 +1,10 @@
-import { Container, type ContainerChild, type TickerCallback } from "pixi.js";
-import type { Scene } from "../types";
-import { Markup } from "../../components/markup";
-import type { Coordinator } from "../../coordinator";
-import { Ball } from "../../components/ball";
-import type { Player } from "../../components/player";
-import { EndGame } from "../end-game";
+import { Container, type TickerCallback } from 'pixi.js';
+import { Ball } from '../../components/ball';
+import { Markup } from '../../components/markup';
+import type { Player } from '../../components/player';
+import type { Coordinator } from '../../coordinator';
+import { EndGame } from '../end-game';
+import type { Scene } from '../types';
 
 export abstract class Gameplay implements Scene {
 	view: Container = new Container();
@@ -13,13 +13,11 @@ export abstract class Gameplay implements Scene {
 	playerRight: Player;
 	ball: Ball;
 
-	paddleSideGap: number = 20;
+	paddleSideGap = 20;
 	paddleHeight: number;
 	paddleWidth: number;
 
-	constructor(
-		protected coordinator: Coordinator,
-	) {
+	constructor(protected coordinator: Coordinator) {
 		this.paddleHeight = this.coordinator.pixiApp.canvas.height * 0.2;
 		this.paddleWidth = this.coordinator.pixiApp.canvas.width * 0.01;
 		this.markup = this.createMarkup();
@@ -33,15 +31,15 @@ export abstract class Gameplay implements Scene {
 			endX: this.coordinator.pixiApp.canvas.width,
 			endY: this.coordinator.pixiApp.canvas.height,
 			width: 1,
-		})
+		});
 	}
 
 	createPlayerLeft(): Player {
-		throw new Error("Gameplay: Method createPlayerLeft not implemented.");
+		throw new Error('Gameplay: Method createPlayerLeft not implemented.');
 	}
 
 	createPlayerRight(): Player {
-		throw new Error("Gameplay: Method createPlayerRight not implemented.");
+		throw new Error('Gameplay: Method createPlayerRight not implemented.');
 	}
 
 	private createBall() {
@@ -57,19 +55,21 @@ export abstract class Gameplay implements Scene {
 
 	private checkCollision = (player: Player) => {
 		return !(
-			this.ball.x + this.ball.radius < player.x ||
-			player.x + this.paddleWidth < this.ball.x ||
-			this.ball.y + this.ball.radius < player.y ||
-			player.y + this.paddleHeight < this.ball.y
-		)
-	}
+			this.ball.x + this.ball.radius < player.x
+			|| player.x + this.paddleWidth < this.ball.x
+			|| this.ball.y + this.ball.radius < player.y
+			|| player.y + this.paddleHeight < this.ball.y
+		);
+	};
 
 	protected checkBallHitPlayer() {
-		const player = [this.playerLeft, this.playerRight].find(this.checkCollision);
+		const player = [this.playerLeft, this.playerRight].find(
+			this.checkCollision,
+		);
 
 		if (player) {
-			const playerMiddle = player.y + (this.paddleHeight / 2);
-			const ballMiddle = this.ball.y + (this.ball.radius / 2);
+			const playerMiddle = player.y + this.paddleHeight / 2;
+			const ballMiddle = this.ball.y + this.ball.radius / 2;
 			const middleDelta = ballMiddle - playerMiddle;
 			this.ball.velocityX = -this.ball.velocityX;
 			this.ball.velocityY = middleDelta * 0.08;
@@ -99,22 +99,30 @@ export abstract class Gameplay implements Scene {
 	protected checkBallHitSide() {
 		if (this.ball.x < 0) {
 			this.playerRightPass();
-		};
+		}
 
-    if (this.ball.x + this.ball.radius > this.coordinator.pixiApp.canvas.width) {
-      this.playerLeftPass();
-    }
+		if (
+			this.ball.x + this.ball.radius
+			> this.coordinator.pixiApp.canvas.width
+		) {
+			this.playerLeftPass();
+		}
 
-    if (this.ball.y + this.ball.radius > this.coordinator.pixiApp.canvas.height || this.ball.y < 0) {
-      this.ball.velocityY = -this.ball.velocityY;
-    }
+		if (
+			this.ball.y + this.ball.radius > this.coordinator.pixiApp.canvas.height
+			|| this.ball.y < 0
+		) {
+			this.ball.velocityY = -this.ball.velocityY;
+		}
 	}
 
 	protected checkScore() {
-		const score = this.markup.score.find((score) => score >= 5);
+		const score = this.markup.score.find(score => score >= 5);
 		if (!score) return;
 
-		this.coordinator.goToScene(new EndGame(this.coordinator, this.markup.score));
+		this.coordinator.goToScene(
+			new EndGame(this.coordinator, this.markup.score),
+		);
 	}
 
 	onStart(): void {
@@ -124,8 +132,8 @@ export abstract class Gameplay implements Scene {
 		this.ball.render(this.coordinator.pixiApp.stage);
 	}
 
-	onTick: TickerCallback<any> = () => {
-		throw new Error("Method not implemented.");
+	onTick: TickerCallback<unknown> = () => {
+		throw new Error('Method not implemented.');
 	};
 
 	onFinish(): void {

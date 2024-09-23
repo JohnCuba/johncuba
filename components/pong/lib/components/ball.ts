@@ -1,20 +1,20 @@
-import { Container, Graphics } from 'pixi.js';
+import { type Container, Graphics } from 'pixi.js';
 
 interface BallConfig {
-	radius?: number
-	x: number
-	y: number
-	velocityX?: number
-	velocityY?: number
+	radius?: number;
+	x: number;
+	y: number;
+	velocityX?: number;
+	velocityY?: number;
 }
 
 export class Ball {
 	private view: Graphics;
-	x: number = 0;
-	y: number = 0;
-	velocityX: number = 0;
-	velocityY: number = 0;
-	radius: number = 50;
+	x = 0;
+	y = 0;
+	velocityX = 0;
+	velocityY = 0;
+	radius = 50;
 
 	constructor(config: BallConfig) {
 		this.view = this.createView();
@@ -22,13 +22,9 @@ export class Ball {
 	}
 
 	private createView() {
-		const view = new Graphics().rect(
-			this.x,
-			this.y,
-			this.radius,
-			this.radius
-		)
-		.fill('#fff');
+		const view = new Graphics()
+			.rect(this.x, this.y, this.radius, this.radius)
+			.fill('#fff');
 
 		return view;
 	}
@@ -37,8 +33,10 @@ export class Ball {
 		this.x = config.x;
 		this.y = config.y;
 		this.radius = config.radius || this.radius;
-		this.velocityX = typeof config.velocityX === 'number' ? config.velocityX : this.velocityX;
-		this.velocityY = typeof config.velocityY === 'number' ? config.velocityY : this.velocityY;
+		this.velocityX
+			= typeof config.velocityX === 'number' ? config.velocityX : this.velocityX;
+		this.velocityY
+			= typeof config.velocityY === 'number' ? config.velocityY : this.velocityY;
 	}
 
 	render(stage: Container) {
@@ -46,19 +44,16 @@ export class Ball {
 	}
 
 	onTick() {
-    this.x += this.velocityX;
-    this.y += this.velocityY;
+		this.x += this.velocityX;
+		this.y += this.velocityY;
 
-		this.view.clear().rect(
-			this.x,
-			this.y,
-			this.radius,
-			this.radius,
-		)
-		.fill('#fff');
+		this.view
+			.clear()
+			.rect(this.x, this.y, this.radius, this.radius)
+			.fill('#fff');
 	}
 
-  public destroy(): void {
-    this.view.destroy();
-  }
+	public destroy(): void {
+		this.view.destroy();
+	}
 }

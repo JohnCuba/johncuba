@@ -11,18 +11,28 @@ const LINKS = [
 	{
 		title: 'IG',
 		link: 'https://instagram.com/john_cubaaaaaa',
-	}
-]
+	},
+];
 </script>
 
 <template>
 	<header :class="$style.header">
-		<NuxtLink to="/" :class="$style.title">
+		<NuxtLink
+			to="/"
+			:class="$style.title"
+		>
 			John Cuba
 		</NuxtLink>
 		<ul :class="$style.links">
-			<li v-for="entity in LINKS">
-				<NuxtLink :to="entity.link" :class="$style.link" target="__blank">
+			<li
+				v-for="(entity, index) in LINKS"
+				:key="index"
+			>
+				<NuxtLink
+					:to="entity.link"
+					:class="$style.link"
+					target="__blank"
+				>
 					{{ entity.title }}
 				</NuxtLink>
 			</li>

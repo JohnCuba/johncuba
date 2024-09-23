@@ -1,10 +1,10 @@
 <template>
 	<main :class="$style.root">
-			<slot name="navigation" />
-			<div :class="$style.header">
-				<slot name="header" />
-			</div>
-			<slot name="content" />
+		<slot name="navigation" />
+		<div :class="$style.header">
+			<slot name="header" />
+		</div>
+		<slot name="content" />
 	</main>
 </template>
 

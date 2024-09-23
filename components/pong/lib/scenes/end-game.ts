@@ -1,17 +1,17 @@
-import { Container, Graphics } from 'pixi.js';
-import type { Scene } from './types';
 import { Button } from '@pixi/ui';
+import { Container, Graphics } from 'pixi.js';
 import type { Coordinator } from '../coordinator';
-import { SingleplayerGameplay } from './gameplay';
 import { StyledText } from '../shared/styled-text';
+import { SingleplayerGameplay } from './gameplay';
 import { SelectControl } from './select-control';
+import type { Scene } from './types';
 
 export class EndGame implements Scene {
 	view: Container = new Container();
 
 	constructor(
 		protected coordinator: Coordinator,
-		scores: number[]
+		scores: number[],
 	) {
 		this.createPlayAgen();
 		this.createTitle(scores);
@@ -35,7 +35,7 @@ export class EndGame implements Scene {
 		const wrapper = new Graphics({
 			children: [text],
 			x: (this.coordinator.pixiApp.canvas.width - text.width) / 2,
-			y: (this.coordinator.pixiApp.canvas.height - text.height) / 2
+			y: (this.coordinator.pixiApp.canvas.height - text.height) / 2,
 		});
 
 		const button = new Button(wrapper);
@@ -47,10 +47,9 @@ export class EndGame implements Scene {
 
 	handlePressPlayAgen() {
 		this.coordinator.goToScene(
-			new SelectControl(
-				this.coordinator,
-				() => this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator)),
-			)
+			new SelectControl(this.coordinator, () =>
+				this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator)),
+			),
 		);
 	}
 
@@ -58,8 +57,7 @@ export class EndGame implements Scene {
 		this.coordinator.pixiApp.stage.addChild(this.view);
 	}
 
-	onTick() {
-	};
+	onTick() {}
 
 	onFinish(): void {
 		this.view.destroy();

@@ -1,5 +1,5 @@
-import { Gameplay } from './gameplay';
 import { Player } from '../../components/player';
+import { Gameplay } from './interface';
 
 export class SingleplayerGameplay extends Gameplay {
 	override createPlayerLeft() {
@@ -16,13 +16,16 @@ export class SingleplayerGameplay extends Gameplay {
 
 	override createPlayerRight() {
 		const npc = new Player({
-			x: this.coordinator.pixiApp.canvas.width - this.paddleWidth - this.paddleSideGap,
+			x:
+				this.coordinator.pixiApp.canvas.width
+				- this.paddleWidth
+				- this.paddleSideGap,
 			y: 0,
 			maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
 			width: this.paddleWidth,
 			height: this.paddleHeight,
 			speed: 4,
-			control: 'target'
+			control: 'target',
 		});
 		return npc;
 	}
@@ -35,5 +38,5 @@ export class SingleplayerGameplay extends Gameplay {
 		this.ball.onTick();
 		this.markup.onTick();
 		this.checkScore();
-	}
+	};
 }
