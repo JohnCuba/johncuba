@@ -12,14 +12,15 @@
 		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
-		"@nuxt/eslint": "^0.5.7",
+		"@nuxt/eslint": "^1.2.0",
 		"@nuxtjs/google-fonts": "^3.2.0",
-		"@pixi/ui": "^2.1.5",
-		"nuxt": "^3.13.0",
-		"pixi.js": "^8.3.4",
-		"vue": "latest"
+		"@pixi/ui": "^2.2.2",
+		"caniuse-lite": "^1.0.30001703",
+		"nuxt": "^3.16.0",
+		"pixi.js": "^8.8.1",
+		"vue": "^3.5.13"
 	},
 	"devDependencies": {
-		"typescript": "5.5.4"
+		"typescript": "5.8.2"
 	}
 }
