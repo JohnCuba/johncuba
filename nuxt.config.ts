@@ -13,6 +13,16 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	app: {
 		head: {
+			title: 'John Cuba',
+			meta: [
+				{
+					charset: 'utf-8',
+				},
+				{
+					name: 'description',
+					content: 'Sandbox',
+				},
+			],
 			htmlAttrs: {
 				lang: 'en',
 			},
