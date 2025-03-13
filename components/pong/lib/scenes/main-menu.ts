@@ -2,7 +2,8 @@ import { Button } from '@pixi/ui';
 import { Container, Graphics } from 'pixi.js';
 import type { Coordinator } from '../coordinator';
 import { StyledText } from '../shared/styled-text';
-import { MultiplayerLocalGameplay, SingleplayerGameplay } from './gameplay';
+import { SingleplayerGameplay } from './gameplay/singleplayer';
+import { MultiplayerLocalGameplay } from './gameplay/multiplayer-local';
 import { SelectControl } from './select-control';
 import type { Scene } from './types';
 
