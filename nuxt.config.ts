@@ -1,7 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-	compatibilityDate: '2024-04-03',
-	devtools: { enabled: true },
 	modules: [[
 		'@nuxtjs/google-fonts',
 		{
@@ -12,6 +10,15 @@ export default defineNuxtConfig({
 			},
 		},
 	], '@nuxt/eslint'],
+	devtools: { enabled: true },
+	app: {
+		head: {
+			htmlAttrs: {
+				lang: 'en',
+			},
+		},
+	},
+	compatibilityDate: '2024-04-03',
 	eslint: {
 		config: {
 			stylistic: {
