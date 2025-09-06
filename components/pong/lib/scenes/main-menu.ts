@@ -17,8 +17,8 @@ export class MainMenuScene implements Scene {
 
 	private handlePressPlaySingle = () => {
 		this.coordinator.goToScene(
-			new SelectControl(this.coordinator, () =>
-				this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator)),
+			new SelectControl(this.coordinator, control =>
+				this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator, control)),
 			),
 		);
 	};
@@ -43,9 +43,9 @@ export class MainMenuScene implements Scene {
 
 	private handlePressPlayMultiplayerLocal = () => {
 		this.coordinator.goToScene(
-			new SelectControl(this.coordinator, () =>
+			new SelectControl(this.coordinator, control =>
 				this.coordinator.goToScene(
-					new MultiplayerLocalGameplay(this.coordinator),
+					new MultiplayerLocalGameplay(this.coordinator, control),
 				),
 			),
 		);

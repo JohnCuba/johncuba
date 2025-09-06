@@ -1,32 +1,12 @@
 import type { Application, Renderer } from 'pixi.js';
 import type { Scene } from './scenes/types';
 
-type Options = {
-	controlBy: 'keyboard' | 'mouse';
-};
-
-const defaultOptions: Options = {
-	controlBy: 'mouse',
-};
-
 export class Coordinator {
 	currentScene: Scene | undefined;
 
 	constructor(
 		public pixiApp: Application<Renderer>,
-		protected _options: Options = defaultOptions,
 	) {}
-
-	get options() {
-		return this._options;
-	}
-
-	setOptions(options: Partial<Options>) {
-		this._options = {
-			...this.options,
-			...options,
-		};
-	}
 
 	goToScene(scene: Scene) {
 		if (this.currentScene) {

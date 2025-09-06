@@ -11,13 +11,13 @@ export class EndGame implements Scene {
 
 	constructor(
 		protected coordinator: Coordinator,
-		scores: number[],
+		scores: [number, number],
 	) {
 		this.createPlayAgen();
 		this.createTitle(scores);
 	}
 
-	private createTitle(scores: number[]) {
+	private createTitle(scores: [number, number]) {
 		const text = new StyledText({
 			text: `${scores[0] >= 5 ? 'Left' : 'Right'} player win! ${scores.join(' - ')}`,
 		});
@@ -47,8 +47,9 @@ export class EndGame implements Scene {
 
 	handlePressPlayAgen() {
 		this.coordinator.goToScene(
-			new SelectControl(this.coordinator, () =>
-				this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator)),
+			// play agen multiplayer
+			new SelectControl(this.coordinator, control =>
+				this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator, control)),
 			),
 		);
 	}

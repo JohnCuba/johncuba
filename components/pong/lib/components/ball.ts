@@ -16,6 +16,10 @@ export class Ball {
 	velocityY = 0;
 	radius = 50;
 
+	get centerY() {
+		return this.y + this.radius / 2;
+	}
+
 	constructor(config: BallConfig) {
 		this.view = this.createView();
 		this.reset(config);

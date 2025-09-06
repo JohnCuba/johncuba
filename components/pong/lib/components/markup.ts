@@ -1,4 +1,4 @@
-import { type Container, Graphics, type Text } from 'pixi.js';
+import { type Container, Graphics } from 'pixi.js';
 import { StyledText } from '../shared/styled-text';
 
 interface MarkupConfig {
@@ -9,9 +9,9 @@ interface MarkupConfig {
 
 export class Markup {
 	private middleLine: Graphics;
-	score: number[] = [0, 0];
-	private scoreLeft: Text;
-	private scoreRight: Text;
+	score: [number, number] = [0, 0];
+	private scoreLeft: StyledText;
+	private scoreRight: StyledText;
 
 	constructor(protected config: MarkupConfig) {
 		this.middleLine = this.createMiddleLine();
@@ -31,7 +31,7 @@ export class Markup {
 		return view;
 	}
 
-	private createScore() {
+	private createScore(): [StyledText, StyledText] {
 		const scoreLeft = new StyledText({
 			text: this.score[0],
 			y: 50,
