@@ -5,10 +5,6 @@ type Options = {
 	controlBy: 'keyboard' | 'mouse';
 };
 
-type PartialOptions = {
-	[P in keyof Options]?: Options[P];
-};
-
 const defaultOptions: Options = {
 	controlBy: 'mouse',
 };
@@ -25,7 +21,7 @@ export class Coordinator {
 		return this._options;
 	}
 
-	setOptions(options: PartialOptions) {
+	setOptions(options: Partial<Options>) {
 		this._options = {
 			...this.options,
 			...options,
