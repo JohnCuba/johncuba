@@ -31,10 +31,6 @@ export class Player {
 		this.height = config.height;
 		this.speed = config.speed || 5;
 		this.control = config.control;
-
-		if (config.control === 'keyboard') {
-			this.setupControlByKeyboard();
-		}
 	}
 
 	// Control by mouse start
@@ -117,6 +113,9 @@ export class Player {
 	public render(stage: Container): void {
 		if (this.control === 'mouse') {
 			this.setupControlByMouse();
+		}
+		else if (this.control === 'keyboard') {
+			this.setupControlByKeyboard();
 		}
 
 		stage.addChild(this.view);
