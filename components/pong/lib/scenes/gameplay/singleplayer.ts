@@ -1,13 +1,7 @@
 import { Player } from '../../components/player';
-import type { Coordinator } from '../../coordinator';
 import { Gameplay } from './interface';
 
 export class SingleplayerGameplay extends Gameplay {
-	constructor(coordinator: Coordinator, protected playerControl: 'mouse' | 'keyboard') {
-		super(coordinator);
-		this.players = this.createPlayers();
-	}
-
 	override createPlayers() {
 		return [
 			new Player({
@@ -17,7 +11,7 @@ export class SingleplayerGameplay extends Gameplay {
 				height: this.paddleHeight,
 				speed: 4,
 				maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
-				controller: this.getController(this.playerControl),
+				controller: this.getController(this.coordinator.options.control[0]),
 			}),
 			new Player({
 				x:
@@ -29,7 +23,7 @@ export class SingleplayerGameplay extends Gameplay {
 				width: this.paddleWidth,
 				height: this.paddleHeight,
 				speed: 4,
-				controller: this.getController('followAuto'),
+				controller: this.getController(this.coordinator.options.control[1]),
 			}),
 		];
 	};

@@ -1,6 +1,5 @@
 import { Application, type Renderer } from 'pixi.js';
 import { Coordinator } from './coordinator';
-import { MainMenuScene } from './scenes/main-menu';
 
 export class PongGame {
 	private pixiApp: Application<Renderer>;
@@ -23,6 +22,6 @@ export class PongGame {
 
 		rootElem.appendChild(this.pixiApp.canvas);
 
-		this.coordinator.goToScene(new MainMenuScene(this.coordinator));
+		this.coordinator.goToMenu();
 	}
 }

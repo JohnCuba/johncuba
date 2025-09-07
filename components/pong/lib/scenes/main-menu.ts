@@ -2,9 +2,6 @@ import { Button } from '@pixi/ui';
 import { Container, Graphics } from 'pixi.js';
 import type { Coordinator } from '../coordinator';
 import { StyledText } from '../shared/styled-text';
-import { SingleplayerGameplay } from './gameplay/singleplayer';
-import { MultiplayerLocalGameplay } from './gameplay/multiplayer-local';
-import { SelectControl } from './select-control';
 import type { Scene } from './types';
 
 export class MainMenuScene implements Scene {
@@ -14,14 +11,6 @@ export class MainMenuScene implements Scene {
 		this.createPlaySingleButton();
 		this.createPlayMultiplayerLocalButton();
 	}
-
-	private handlePressPlaySingle = () => {
-		this.coordinator.goToScene(
-			new SelectControl(this.coordinator, control =>
-				this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator, control)),
-			),
-		);
-	};
 
 	private createPlaySingleButton() {
 		const text = new StyledText({
@@ -36,20 +25,13 @@ export class MainMenuScene implements Scene {
 
 		const button = new Button(wrapper);
 
-		button.press = this.handlePressPlaySingle;
+		button.press = () => {
+			this.coordinator.options.gameplay = 'single';
+			this.coordinator.goToSelectControl();
+		};
 
 		this.view.addChild(button.view);
 	}
-
-	private handlePressPlayMultiplayerLocal = () => {
-		this.coordinator.goToScene(
-			new SelectControl(this.coordinator, control =>
-				this.coordinator.goToScene(
-					new MultiplayerLocalGameplay(this.coordinator, control),
-				),
-			),
-		);
-	};
 
 	private createPlayMultiplayerLocalButton() {
 		const text = new StyledText({
@@ -65,7 +47,10 @@ export class MainMenuScene implements Scene {
 
 		const button = new Button(wrapper);
 
-		button.press = this.handlePressPlayMultiplayerLocal;
+		button.press = () => {
+			this.coordinator.options.gameplay = 'multi';
+			this.coordinator.goToSelectControl();
+		};
 
 		this.view.addChild(button.view);
 	}

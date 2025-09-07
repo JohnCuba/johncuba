@@ -1,14 +1,9 @@
 import { Player } from '../../components/player';
-import type { Coordinator } from '../../coordinator';
 import { Gameplay } from './interface';
 
-export class MultiplayerLocalGameplay extends Gameplay {
-	constructor(coordinator: Coordinator, protected playerControl: 'mouse' | 'keyboard') {
-		super(coordinator);
-		this.players = this.createPlayers();
-	}
-
+export class MultiplayerGameplay extends Gameplay {
 	override createPlayers() {
+		console.log('BUM');
 		return [
 			new Player({
 				x: this.paddleSideGap,
@@ -16,7 +11,7 @@ export class MultiplayerLocalGameplay extends Gameplay {
 				width: this.paddleWidth,
 				height: this.paddleHeight,
 				maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
-				controller: this.getController(this.playerControl),
+				controller: this.getController(this.coordinator.options.control[0]),
 			}),
 			new Player({
 				x:
@@ -27,7 +22,7 @@ export class MultiplayerLocalGameplay extends Gameplay {
 				width: this.paddleWidth,
 				height: this.paddleHeight,
 				maxY: this.coordinator.pixiApp.canvas.height - this.paddleHeight,
-				controller: this.getController(this.playerControl === 'mouse' ? 'keyboard' : 'mouse'),
+				controller: this.getController(this.coordinator.options.control[1]),
 			}),
 		];
 	}

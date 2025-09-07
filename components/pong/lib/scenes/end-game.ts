@@ -2,8 +2,6 @@ import { Button } from '@pixi/ui';
 import { Container, Graphics } from 'pixi.js';
 import type { Coordinator } from '../coordinator';
 import { StyledText } from '../shared/styled-text';
-import { SingleplayerGameplay } from './gameplay/singleplayer';
-import { SelectControl } from './select-control';
 import type { Scene } from './types';
 
 export class EndGame implements Scene {
@@ -45,13 +43,8 @@ export class EndGame implements Scene {
 		this.view.addChild(button.view);
 	}
 
-	handlePressPlayAgen() {
-		this.coordinator.goToScene(
-			// play agen multiplayer
-			new SelectControl(this.coordinator, control =>
-				this.coordinator.goToScene(new SingleplayerGameplay(this.coordinator, control)),
-			),
-		);
+	async handlePressPlayAgen() {
+		this.coordinator.goToGameplay();
 	}
 
 	onStart(): void {

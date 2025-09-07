@@ -2,7 +2,7 @@ import { Container, type TickerCallback } from 'pixi.js';
 import { Ball } from '../../components/ball';
 import { Markup } from '../../components/markup';
 import type { Player } from '../../components/player';
-import type { Coordinator } from '../../coordinator';
+import type { Controls, Coordinator } from '../../coordinator';
 import { EndGame } from '../end-game';
 import type { Scene } from '../types';
 import { FollowAutoController } from '../../controller/follow-auto-controller';
@@ -26,13 +26,14 @@ export abstract class Gameplay implements Scene {
 		this.paddleWidth = this.coordinator.pixiApp.canvas.width * 0.01;
 		this.markup = this.createMarkup();
 		this.ball = this.createBall();
+		this.players = this.createPlayers();
 	}
 
-	protected getController(control: 'mouse' | 'keyboard' | 'followAuto') {
+	protected getController(control: Controls) {
 		switch (control) {
 			case 'mouse': return new MouseController();
 			case 'keyboard': return new KeyboardController();
-			case 'followAuto': return new FollowAutoController();
+			case 'follow': return new FollowAutoController();
 		}
 	};
 

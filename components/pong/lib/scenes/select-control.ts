@@ -9,10 +9,16 @@ export class SelectControl implements Scene {
 
 	constructor(
 		protected coordinator: Coordinator,
-		protected onSelect: (selected: 'mouse' | 'keyboard') => void,
 	) {
 		this.createKeyboardButton();
 		this.createMouseButton();
+	}
+
+	private onSelect() {
+		if (this.coordinator.options.gameplay === 'multi') {
+			this.coordinator.options.control[1] = this.coordinator.options.control[0] === 'mouse' ? 'keyboard' : 'mouse';
+		}
+		this.coordinator.goToGameplay();
 	}
 
 	private createKeyboardButton() {
@@ -28,7 +34,10 @@ export class SelectControl implements Scene {
 
 		const button = new Button(wrapper);
 
-		button.press = () => this.onSelect('keyboard');
+		button.press = () => {
+			this.coordinator.options.control[0] = 'keyboard';
+			this.onSelect();
+		};
 
 		this.view.addChild(button.view);
 	}
@@ -48,7 +57,10 @@ export class SelectControl implements Scene {
 
 		const button = new Button(wrapper);
 
-		button.press = () => this.onSelect('mouse');
+		button.press = () => {
+			this.coordinator.options.control[0] = 'mouse';
+			this.onSelect();
+		};
 
 		this.view.addChild(button.view);
 	}
