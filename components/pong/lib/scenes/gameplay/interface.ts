@@ -15,7 +15,6 @@ export abstract class Gameplay implements Scene {
 	players: Player[] = [];
 	ball: Ball;
 	winScore = 5;
-	hittedPlayer: Player | null = null;
 
 	paddleSideGap = 20;
 	paddleHeight: number;
@@ -73,7 +72,6 @@ export abstract class Gameplay implements Scene {
 		const player = this.players.find(this.checkCollision);
 
 		if (player) {
-			this.hittedPlayer = player;
 			const ballMiddle = this.ball.y + this.ball.radius / 2;
 			const middleDelta = ballMiddle - player.centerY;
 			this.ball.velocityX = -this.ball.velocityX;
@@ -100,18 +98,21 @@ export abstract class Gameplay implements Scene {
 			velocityY: 0,
 		});
 
-		// Not count miseed ball from game start
-		if (!this.hittedPlayer) return;
+		if (this.players[1] && this.ball.x < 0) {
+			++this.players[1].score;
+		}
+		else if (this.players[0] && this.ball.x + this.ball.radius > this.coordinator.pixiApp.canvas.width) {
+			++this.players[0].score;
+		}
 
-		++this.hittedPlayer.score;
 		const scores = this.players.map(player => player.score) as typeof this.markup.score;
 		this.markup.score = scores;
 
-		if (this.hittedPlayer.score < this.winScore) return;
-
-		this.coordinator.goToScene(
-			new EndGame(this.coordinator, scores),
-		);
+		if (scores.find(score => score >= this.winScore)) {
+			this.coordinator.goToScene(
+				new EndGame(this.coordinator, scores),
+			);
+		}
 	}
 
 	onStart(): void {
