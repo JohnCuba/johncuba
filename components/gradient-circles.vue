@@ -67,6 +67,8 @@ const handleMouseMove = (e: MouseEvent) => {
 
 const handleTouch = (ev: TouchEvent) => {
 	const touch = ev.touches[0];
+	if (!touch) return;
+
 	setCirclesTheta(touch.pageX, touch.pageY);
 };
 
